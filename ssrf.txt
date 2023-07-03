@@ -1,0 +1,47 @@
+ID: 1687452428
+
+# Details:
+Server-Side Request Forgery, SSRF for short, is a vulnerability class that describes the behavior of a server
+making a request that’s under the attacker’s control. Server with ssrf works as a proxy for attacker to make 
+requests to internal and external networks. SSRF can lead to RCE. Look for slight changes in respones time/length etc
+for blind or partial response ssrfs
+
+# Testing Guide:
+Automatic Testing:
+
+Manual Testing:
+    1. Identify SSRF injection points
+        i.   Engagement Tools > Analyze target.
+        ii.  Open redirect endpoints look similar to some ssrf endpoints.
+        iii. Servers which keeps track of users may be injectable through referer header.
+        iv.  webhooks
+        v.   Anywhere if there is an URL put burp collaborator's url. Check if collaborators poll has any unknown ip.
+    2. Test if the injection point is exploitable.
+        i.   Check if the endpoint makes request to your vps or publicly available domain
+            a. Netcat: nc -nlvp 8123
+            b. Burp Collaborator: Burp > Burp Collaborator client > copy to clipboard. Poll now
+        ii.  Check twice if the request is coming from your own ip or from something else
+    3. Idetify which type of ssrf.
+        i.   Full response
+        ii.  Partial response
+        iii. Blind
+    4. Find ways to bypass if there is any filter in server.
+        i.   Blacklist: nip.io
+        ii.  Whitelist: find open redirects in whitelisted domains.
+        iii. Restricted Content-TYpe, extensions, characters etc.
+        iv.  No Response
+    4. Identify the severity of ssrf:
+        i.   http: open ports/services in loopback address. 
+        ii.  file: Check which files can be read from the server.
+            => payload: file:///etc/passwd
+        iii. Metadata: API keys
+            =>payload: http://169.254.169.254/latest/meta-data/v1
+        iv.  Scan Internal Network: hidden application / services.
+        v.   File upload functionalities: Remote files can be uploaded.
+
+# Resources:
+    1. ssrf: https://www.hackerone.com/application-security/how-server-side-request-forgery-ssrf
+    2. ssrf owasp: https://owasp.org/www-project-web-security-testing-guide/v42/4-Web_Application_Security_Testing/07-Input_Validation_Testing/19-Testing_for_Server-Side_Request_Forgery
+    3. Prevention Cheat Sheet: https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html
+    4. Payloads: https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Server%20Side%20Request%20Forgery
+

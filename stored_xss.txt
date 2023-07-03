@@ -1,0 +1,28 @@
+# Details:
+Input data is stored in the website and later displayed. So stored xss will excute malicious codes when any user visits that page.
+Do not brute force payloads in the input fields for stored xss.
+
+# Testing guide:
+Manual Testing(preferred):
+    1. Identify stored input that is reflected on the client-side.
+        => Check given input forms for stored xss vectors:
+            1. User/Profiles page: the application allows the user to edit/change profile details such as first name, last name, nickname, avatar, picture, address, etc.
+            2. Shopping cart: the application allows the user to store items into the shopping cart which can then be reviewed later
+            3. File Manager: application that allows upload of files (html, js or other executable file formats)
+            4. Application settings/preferences: application that allows the user to set preferences
+            5. Forum/Message board: application that permits exchange of posts among users
+            6. Blog: if the blog application permits to users submitting comments
+            7. Log: if the application stores some users input into logs.
+
+    2. Assess the input they accept and the encoding that gets applied on return (if any).
+        => Input payloads carefully to bypass filters (as inputs are stored in the application).
+        => Check sink manually for xss vulnerabilites.
+        => Encode payloads using hackvertor extension in burp.
+
+Automatic testing:
+    i. Burp active scan.
+    2. xsstrike
+
+# Resources:
+    1. Stored xss: https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/07-Input_Validation_Testing/02-Testing_for_Stored_Cross_Site_Scripting
+    2. Filter evasion cheat sheet(same as reflected): https://cheatsheetseries.owasp.org/cheatsheets/XSS_Filter_Evasion_Cheat_Sheet.html

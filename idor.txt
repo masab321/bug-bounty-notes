@@ -1,0 +1,45 @@
+ID: 1687091740
+
+# Details:
+Insecure Direct Object References (IDOR) occur when an application provides direct access to objects based
+on user-supplied input. As a result of this vulnerability attackers can bypass authorization and access
+resources in the system directly, for example database records or files. IDOR vulnerabilities can be used to
+Retrieve data:
+    a. Personally Identifiable Information(PII).
+    b. Phone number
+    c. Address
+    d. Reciept/Voucher
+
+Create Modify or Delete data:
+    a. Email
+    b. Account details
+    c. Cart informations
+    d. Perform impactful actions with another users account.
+
+# Testing Guide:
+Create atleast two account before testing.
+Account1 = Attacker(usually with lower or equal privilege).
+Account2 = Victim
+
+Automatic Testing:
+    1. Burp suite Autorize extension.
+        i.   Put attackers authorization related cookies and headers in autorize configuration
+        ii.  Browse the application logged in with victim account.
+        iii. Check request sent in autorize. Fix if these is any authorization related problems of attackers account
+
+Manual Testing:
+    1. Find entry points where object references may occur.
+        i.   Numeric user id: 12345
+        ii.  Cryptographic user id hashes: XHASDRUT6T341CDSAF, casd-dfasfdas-asdlar, (base64 encoded ids) etc.
+        iii. Plain text id: email, username etc.
+    2. Find another valid users credentials (cookies/authorization headers) and try to access the object.
+        i.   For a list of valid users or many numeric values use burp intruder
+        ii.  For a single user use burp repeater
+
+# Resources:
+    1. IDOR: https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/05-Authorization_Testing/04-Testing_for_Insecure_Direct_Object_References
+    2. Burp test guide: https://portswigger.net/support/using-burp-to-test-for-insecure-direct-object-references
+    3. Autorize test guide: 
+        a. written manual: https://blog.eldernode.com/install-and-use-authorize-on-burp-suite/
+        b. video: https://www.youtube.com/watch?v=hZ0xSRswN8M&ab_channel=TheXSSrat
+        c. video(start watching after 10 mins): https://www.youtube.com/watch?v=2WzqH6N-Gbc&ab_channel=InsiderPhD

@@ -1,0 +1,26 @@
+# Details:
+Reflected Cross-site Scripting (XSS) occur when an attacker injects browser executable code within a single HTTP response.
+XSS is actually executing codes in client. The main objectives for reflected xss are:
+    1. Identify variables that are reflected in responses.
+    2. Assess the input they accept and the encoding that gets applied on return (if any). 
+    3. Bypass if characters are escaped, encoded, replaced, or filtered out.
+        => It is quite difficult and time consuming to apply all of bypassing techniques manually. So, we should use a
+        xss payload list and look for those payloads in the response.
+
+# Testing Method:
+Manual testing:
+    1. Detect input vector: parameters, post data, hidden fields, input fields, radio buttons or selection fields etc.
+    2. Check for which input vectors the payload is returned in the response in an executable format.
+        i. Use Turbo Intruder to quickly check for working payloads from the payload list.
+        ii. xsstrike to test a single link.
+            => GET request  : xsstrike -u https://example.com
+            => POST request : xsstrike -u https://example.com --data "name=value"
+        iii. Go through resource->2 for more sophisticated bypass techniques.
+
+Automatic Testing:
+    1. Burp active scan the entire target
+
+# Resources:
+    1. Reflected xss: https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/07-Input_Validation_Testing/01-Testing_for_Reflected_Cross_Site_Scripting
+    2. Filter Evasion cheat sheet(same as stored): https://cheatsheetseries.owasp.org/cheatsheets/XSS_Filter_Evasion_Cheat_Sheet.html
+    3. Burp test using repeater: https://portswigger.net/support/using-burp-to-manually-test-for-reflected-xss

@@ -1,0 +1,49 @@
+# Details:
+Cross-Site Request Forgery (CSRF) is an attack that forces an end user to execute unintended actions on a web 
+application in which they are currently authenticated. CSRF attacks occur when authentication related
+informations are saved in the browser and sent to server in consecutive requests. Attack scenarios for CSRF:
+    1. User can update his email through this get request: 
+		 https://example.com/update_email/?email='updatedemail@gmail.com'.
+    2. Attacker creates a malicious get link:  https://example.com/update_email/?email='attackeremail@gmail.com'.
+    3. The user clicks this malicious link from the same browser where he is authenticated to 'example.com'.
+    4. The browser will send the authication related data along with that malicious request.
+    5. As a result the server will update the email with attackers email.
+
+Different prevention measures can be taken to throttle csrf attack. Most popular prevention measure is to use csrf
+tokens. The impacts of CSRF attacks may vary a lot. So we need to find CSRF attacks in highly impactful
+areas of the application. Such as:
+    1. Update email
+    2. Update phone number
+    3. Update username
+    4. Update password
+    5. Purchase related operations
+    7. Cart update operations
+    8. Any kind of high impact CRUD operations which can be performed by the user.
+
+# Testing guide:
+Automated testing:
+    1. Burp active scan
+
+Manual testing(preferred):
+    1. Create a list of high impact requests which can be performed by an authenticated user.
+    2. Understand the CSRF prevention mechanism used by the application.
+    3. Find vulnerabilities related to that prevention mechanism.
+        => CSRF Tokens:
+            i. Look for csrf token in:
+                a. hidden form fields
+                b. responses with keywords: csrf, xsrf etc.
+            ii. Check if the token can be easily generated for any user (base64 / weak cryptographic hashes).
+            iii. If the CSRF token is actually verified in the backend.
+            iv. One users CSRF token can be used by another user.
+
+Generate Proof of concept:
+    1. Burp request > Engagement tools > Generate CSRF Poc > Copy HTML
+    2. Paste in a new .html file
+    3. Open the file in same browser session
+    4. Click submit in check if the value is updated in the appliction
+
+
+# Resources:
+    1. Cross site request forgery: https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/06-Session_Management_Testing/05-Testing_for_Cross_Site_Request_Forgery
+    2. CSRF prevention cheat sheet: https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/06-Session_Management_Testing/05-Testing_for_Cross_Site_Request_Forgery
+    3. Burp testing guide: https://portswigger.net/support/using-burp-to-test-for-cross-site-request-forgery

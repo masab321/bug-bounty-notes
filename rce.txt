@@ -1,0 +1,32 @@
+ID: 1687772626
+
+# Details:
+Remote Command Injection vulnerability arises when user controllable data can be executed by the server.
+RCE is a vast topic. RCE types I have learned so far:
+    1. Command injection attacks: System commands can be injected
+    2. Code injection: Differen language specific codes can be injected.
+    3. Already vulnerable services which are used by the server.
+
+# Testing Guide:
+Automatic Testing:
+    1. Burp suite scan and active scan
+    2. Nmap version scan
+    3. Nikto scan
+    4. Nuclei scan
+
+Manual Testing:
+    1. Check if any vulnerable software is used by the server
+    2. Identify the injection points.
+    3. Identify entry points which might be exploitable
+    4. Fuzz injection points to be sure about the vulnerability
+        => general payloads: /home/nine/PayloadsAllTheThings/Command Injection/Intruder
+        i.   What kind of operating system the backend is using?
+        ii.  Which programming language is used by the server?
+        iii. Craft payload list accordingly
+    5. Carefully try to find severity of the vulnerability.
+
+# Resources:
+    1. RCE: https://www.invicti.com/learn/remote-code-execution-rce/
+    2. PHP code injection: https://owasp.org/www-community/attacks/Code_Injection
+    3. Payloads: https://github.com/payloadbox/command-injection-payload-list
+

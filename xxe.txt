@@ -1,0 +1,33 @@
+ID: 1687697005
+
+# Details:
+XML external entity injection (also known as XXE) is a web security vulnerability that allows an attacker
+to interfere with an application's processing of XML data. Two types of xml attacks I found:
+    1. XML External Entity
+    2. XML injection
+
+# Testing Guide:
+Automatic Testing:
+    1. Burp active scan and scan.
+
+Manual Testing:
+    1. Identy xml entry points.
+        1. Injections: Check if any user controllable fields which are used in backend to create xml node. (automatic testing).
+            => payloads: /home/nine/PayloadsAllTheThings/XXE Injection/Intruders/XXE_Fuzzing.txt
+        2. Check if you can upload xml files.
+            i.   Plain XML files.
+            ii.  Zip/rar or other compressed files which will be parsed by an XML processor in server.
+            iii. Check any file uploads if they accept xml files.
+            iv.  CHeck any input fields if it is parsed by an XML processor.
+        3. Check the severity of the bug:
+            => payloads: /home/nine/PayloadsAllTheThings/XXE Injection/Intruders/xml_attacks.txt
+            i.   Resource Allocation: billion laughs 
+            ii.  Read local files
+            iii. SSRF
+            iv.  Blind XXE
+
+# Resources:
+    1. XXE: https://www.hackerone.com/knowledge-center/xxe-complete-guide-impact-examples-and-prevention
+    2. XML Injection: https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/07-Input_Validation_Testing/07-Testing_for_XML_Injection
+    3. XXE Prevention Cheat Sheet: https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html
+

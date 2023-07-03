@@ -1,0 +1,29 @@
+# Details:
+Open redirects is the type of attack when user contrallable data is used to generate redirection link.
+Two types of open redirection:
+    1. Client side: User controllable data is used in javascript to redirect
+        eg: document.location = payload
+
+    2. Server side: Server generates redirection link from user data.
+        eg: No filter or sanitization, Improper implementation of filter/regex, etc.
+
+# Testing method:
+Client side open redirection:
+    1. Search in javascript files for value assignment in "document.location".
+    2. Bypass filter or encoding.
+
+Server side open redirection:
+    1. In burp filter 3xx responses
+    2. Check for any interesting redirection which was generated from user input
+    3. Bypass filters:
+        i. Is filter using whitelist or blacklist or regex?
+
+Hacking and payloads:
+    1. Burps active scan or scan the specific request.
+    2. Find out valid redirects. Use valid redirects as suffix and prefix. 
+    3. Use '@' (browser functionality) to redirect to the last address. eg: http://example.com/?redirect=validdomain.com@evil.com.
+
+# Resource links:
+    1. Burp test guide: https://portswigger.net/support/using-burp-to-test-for-open-redirections
+    2. Client side open redirect: https://owasp.org/www-project-web-security-testing-guide/v41/4-Web_Application_Security_Testing/11-Client_Side_Testing/04-Testing_for_Client_Side_URL_Redirect
+    3. Open redirect vulnerability details: https://cheatsheetseries.owasp.org/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.html

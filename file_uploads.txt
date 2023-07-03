@@ -1,0 +1,47 @@
+ID: 1687849978
+
+# Details:
+File upload lets the attacker to upload payloads directly to server. Next only thing required is to
+somehow execute the payload. File upload vulnerbilites can lead to many complications. Such as:
+    1. XSS
+    2. RCE
+    3. Path traversal attacks
+    4. Overwrite other users/system files.
+
+# Testing Guide:
+Manual Testing:
+    1. Find any file upload functionality.
+    2. Figure out the details about the functionality.
+        i.  Which types of files can be uploaded. example: image, text, executable files, csv, pptx etc. Fuzz with burp intruder.
+            => payloads for extensions: /home/nine/seclists/Fuzzing/extension*
+        ii. Which Content-Type (Mime type) are supported. eg: text/html, image/gif etc. Fuzz with burp intruder.
+            => payloads: /home/nine/fuzzdb/attack/mimetypes/MimeTypes.txt
+        iii. File name:
+            a. Max length of filename string.
+            b. If filename is replaced by the backend.
+        iv. How and where the filename and file contents are displayed to the user.
+
+    3. Check for vulnerabilities:
+        1. Asses filename for following vulnerabilities:
+            a. XSS
+            b. Command injection
+            c. Rewrite files which have same name.
+        2. Bypass filename filters. Figrue out if the backend is using asp, jsp, php etc extensions. which can be executed by the server.
+            => Payloads:
+                a. /home/nine/fuzzdb/attack/file-upload
+                b. /home/nine/PayloadsAllTheThings/Upload Insecure Files/Extension* 
+        3. Upload payloads inside the file's content.
+            a. php payloads => (update the payload location when testing for a bug) 
+            b. java: payloads => (update the payload location when testing for a bug)
+            c. command injection => (update the payload location when testing for a bug)
+        4. Uploads payloads inside files metadata.
+        5. Try to execute the uploaded payload.
+            a. Check if the payloads result is displayed directly to the user.
+            b. Check for time delays for partial outputs.
+            c. Check if blind payloads are supported.
+
+# Resources:
+    1. Unrestricted File Upload: https://owasp.org/www-community/vulnerabilities/Unrestricted_File_Upload
+    2. File upload cheat sheet: https://cheatsheetseries.owasp.org/cheatsheets/File_Upload_Cheat_Sheet.html
+    3. Payloads: https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Upload%20Insecure%20Files/README.md
+

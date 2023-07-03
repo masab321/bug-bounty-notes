@@ -1,0 +1,22 @@
+ID: 1687172247
+
+# Details:
+The File Inclusion vulnerability allows an attacker to include a file, usually exploiting a “dynamic file inclusion”
+mechanisms implemented in the target application. The vulnerability occurs due to the use of user-supplied
+input without proper validation. Exmaple endpoint: http://example.com/preview.php?file=example.html
+
+# Testing Guide:
+Automatic Testing:
+    1. Burp active scan
+
+Manual Testing:
+    1. Find endpoints where lfi could be possible (image source, url parameters, json fields etc)
+        => Also assess these fields for RFI
+    2. Brute force with turbo intruder intruder or ffuzz.
+    3. Path traversal payloads are available in /home/nine/Path_Travelsal_Payload_List/Payload/
+
+# Resources:
+    1. LFI : https://owasp.org/www-project-web-security-testing-guide/v42/4-Web_Application_Security_Testing/07-Input_Validation_Testing/11.1-Testing_for_Local_File_Inclusion
+    2. RFI : https://owasp.org/www-project-web-security-testing-guide/v42/4-Web_Application_Security_Testing/07-Input_Validation_Testing/11.2-Testing_for_Remote_File_Inclusion
+    3. Burp testing guide: https://portswigger.net/support/using-burp-to-test-for-path-traversal-vulnerabilities
+

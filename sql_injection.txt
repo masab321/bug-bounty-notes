@@ -1,0 +1,52 @@
+ID: 1687238590
+
+# Details:
+SQL injection vulnerability occurs if the application uses user input to create SQL queries without proper input validation.
+SQL injection does not work on prepared statements. There are mainly two types of SQL injection attacks:
+    1. Error based: The appliction will return sql errors to the user.
+    2. Blind Injection: The application does not return any sql errors to the user.
+    
+There are five common types of techniques to exploit SQL injection attacks:
+    1. Union Operator: can be used when the SQL injection flaw happens in a SELECT statement, making it possible
+       to combine two queries into a single result or result set.
+    2. Boolean: use Boolean condition(s) to verify whether certain conditions are true or false.
+    3. Error based: this technique forces the database to generate an error, giving the attacker or tester information
+       upon which to refine their injection.
+    4. Out-of-band: technique used to retrieve data using a different channel (e.g., make a HTTP connection to send
+       the results to a web server).
+    5. Time delay: use database commands (e.g. sleep) to delay answers in conditional queries. It is useful when
+       attacker doesn’t have some kind of answer (result, output, or error) from the application.
+
+# Testing Guide:
+Automatic Testing:
+    1. Burp suite scan and active scan.
+    2. sqlmap
+
+Manual Testing:
+    1. Identify injection points: Every user controllable fields which communicates with the database is an injection point.
+        a. Authentication forms: when authentication is performed using a web form, chances are that the user credentials
+           are checked against a database that contains all usernames and passwords (or, better, password hashes).
+        b. Search engines: the string submitted by the user could be used in a SQL query that extracts all
+           relevant records from a database.
+        c. E-Commerce sites: the products and their characteristics (price, description, availability, etc) are very
+           likely to be stored in a database.
+        d. HTTP headers and cookies.
+        e. Radio buttons or preselected fields which might communicate with the database.
+
+    2. Check if the injection point is vulnerable to sql injection.
+        a. Use detection payloads from /home/nine/sql-injection-payload-list/Intruder/detect.
+        b. Classify the injection point with its type. example union, error, boolean etc.
+
+    3. Use sqlmap to exploit if a parameter is vulnerable.
+        a. For parameter based SQLi: sqlmap -u "https://example.com/articles?id=1"
+        b. For POST requests:
+            i. Save the burp request as "slqrequest.txt"
+            ii. sqlmap -r sqlrequest.txt --force-ssl
+
+# Resources:
+    1. SQL injection: https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/07-Input_Validation_Testing/05-Testing_for_SQL_Injection
+    2. Payloads in: https://github.com/payloadbox/sql-injection-payload-list
+****3. sqlmap tutorial: https://www.sqlinjection.net/sqlmap/tutorial/
+    4. sql injection detection: https://www.sqlinjection.net/detection/
+****5. Great place to learn more about sql injection: https://www.sqlinjection.net/
+
